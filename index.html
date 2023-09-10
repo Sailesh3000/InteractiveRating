@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- displays site properly based on user's device -->
+
+  <link rel="icon" type="image/png" sizes="32x32" href="./images/favicon-32x32.png">
+  
+  <title>Frontend Mentor | Interactive rating component</title>
+
+  <!-- Feel free to remove these styles or customise in your own stylesheet 👍 -->
+  <style>
+    *{margin:0;padding: 0;}
+    body{
+      background-color: hsl(216, 12%, 8%);
+      font-family:'Overpass', sans-serif;
+    }
+    .icon{
+         border-radius: 50%;
+         height: 45px;
+         width: 45px;
+         background-color:hsl(216, 12%, 25%);
+         border: none;
+         color: hsl(217, 12%, 63%);
+         margin-left: -250px;
+    }
+    .icon img{
+        height: 20px;
+        width: 20px;
+        margin: 13px;
+    }
+    .bold{
+      font-weight:700;
+      margin-left: -100px;
+    }
+    .container{
+           color: white;
+           width: 325px;
+           height: 340px;
+           display: flex;
+           margin: auto;
+           margin-top: calc(50vh - 170px);
+           padding: 20px;
+           border-radius: 20px;
+           background-color: hsl(213, 19%, 18%);
+    align-items: center;
+    justify-content: space-between;
+    box-sizing: border-box;
+    flex-direction: column;
+}
+    .para{
+      font-size: 15px;
+      color: hsl(217, 12%, 63%);
+    }
+    .contselect{
+      display: flex;
+      justify-content: space-around;
+    }
+    .selector{
+      height: 45px;
+      width: 45px;
+      border-radius: 50%;
+      margin: 10px;
+      padding: 10px;
+      font: inherit;
+      border: none;
+      background-color:hsl(216, 12%, 25%) ;
+      
+    }
+    .selector:hover{
+      background-color:  hsl(216, 12%, 54%);
+      color: white;
+    }
+    #submit{
+          padding:15px;
+          font: inherit;
+          width: 300px;
+           color: white;
+           border: none;
+           border-radius: 20px;
+           background-color: hsl(25, 97%, 53%);
+    }
+    #submit:hover{
+      color: hsl(25, 97%, 53%);
+      background-color: hsl(0, 0%, 100%);
+
+    }
+    .selector_click{
+    color: hsl(0, 0%, 100%);
+    background-color: var(--Orange);
+    padding: 5px;
+    border-radius: 50%;
+    height: 45px;
+    width: 45px;
+    border: none;
+    font: inherit;
+
+}
+#tq{
+    margin: 15px auto;
+    margin-bottom: 5px;
+}
+#ta_txt{
+    font-weight: 700;
+    
+}
+
+#rating{
+    color: hsl(25, 97%, 53%);
+    background-color: rgb(255 255 255 / 10%);
+    padding: 5px 3px 5px 3px;
+    width: 70%;
+    border-radius: 50px;
+    font-size: 15px;
+}
+
+#ani_1{
+    animation: exclaim 2s ease-in-out 0s 2 forwards alternate;
+    transform: rotate(180deg);
+    display: inline-block;
+}
+
+@keyframes exclaim {
+    0% {
+        transform: rotate(0deg);
+    }
+    
+    100% {
+        color: orange;
+        transform: rotate(360deg)  translateY(50px) scale(2);
+    }
+}
+
+@media (max-width:325px){
+    .container{
+        width: 300px;
+    }
+}
+  </style>
+</head>
+<body>
+  <div class="container" id="container">
+    <div class="icon">
+      <img src="images/icon-star.svg"></img>
+    </div>
+    <h2 class="bold" >How did we do?</h2>
+    <p class="para">Please let us know how we did with your support request.
+All feedback is appreciated to help us improve our offering!</p>
+<div class="contselect">
+  <button class="selector">1</button>
+  <button class="selector">2</button>
+  <button class="selector">3</button>
+  <button class="selector">4</button>
+  <button class="selector">5</button>
+</div>
+<button id="submit">Submit</button>
+  </div>
+
+  <!-- Rating state start -->
+
+
+  <!-- Rating state end -->
+
+  <!-- Thank you state start -->
+
+ <!--  You selected Add rating here  out of 5 >
+
+  Thank you!
+
+  We appreciate you taking the time to give a rating. If you ever need more support, 
+  don’t hesitate to get in touch!
+
+   Thank you state end -->
+
+  <!--<div class="attribution">
+    Challenge by <a href="https://www.frontendmentor.io?ref=challenge" target="_blank">Frontend Mentor</a>. 
+    Coded by <a href="#">Your Name Here</a>.
+  </div> -->
+
+  <script>
+    let selectors = document.getElementsByClassName(`selector`);
+    let submit = document.getElementById(`submit`);
+    let container = document.getElementById(`container`);
+    let stars = null;
+    selectors = Array.from(selectors)
+
+    selectors.forEach(element => {
+      element.addEventListener(`click`, () => {
+        if (element.classList.contains(`selector_click`)) {
+          element.classList.remove(`selector_click`)
+          element.classList.add(`selector`)
+          stars = null
+        } else {
+          for(let item of selectors) {
+            item.classList.remove(`selector_click`)
+            item.classList.add(`selector`)
+            submit.onclick= () => {
+              item.classList.add(`selector`)
+              item.classList.remove(`selector_click`)
+            }
+          }
+          element.classList.remove(`selector`)
+          element.classList.add(`selector_click`)
+          stars = element.innerHTML
+        }
+      })
+    });
+    
+    submit.addEventListener(`click`, () => {
+      if (stars) {
+        container.innerHTML = `
+        <div id="tq">
+      <img src="images/illustration-thank-you.svg" alt="THANK YOU">
+    </div>
+
+    <div id="rating">
+
+      You selected ${stars} out of 5
+    </div>
+    
+    <h1 id="tq_txt">
+      Thank you<span id="ani_1">!</span>
+    </h1>
+
+    <div class="para">
+
+      We appreciate you taking the time to give a rating. If you ever need more support,
+      don't hesitate to get in touch!
+    </div>
+        `
+        container.style.alignItems = `center`
+        container.style.textAlign = `center`
+      } else {
+        alert("Please rate us!!")
+      }
+    })
+  </script>
+
+</body>
+</html>
